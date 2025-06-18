@@ -1,5 +1,6 @@
 import 'package:aquatech_meteo/models/weather_model.dart';
 import 'package:aquatech_meteo/services/weather_service.dart';
+import 'package:aquatech_meteo/screens/weather_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Météo App',
-      home: TestScreen(), // ← Ton TestScreen ici !
+      home: TestScreen(), 
     );
   }
 }
@@ -26,49 +27,78 @@ class _TestScreenState extends State<TestScreen> {
 
   @override
   void dispose() {
+    _cityController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.lightBlue[50],
       appBar: AppBar(
-        title: Text('Test Weather Service'),
+        title: Text('🌤️ AquaTech Météo'),
+        centerTitle: true,
+        backgroundColor: Colors.lightBlue,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _cityController,
-              decoration: InputDecoration(
-                labelText: 'Enter city name',
-                border: OutlineInputBorder(),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              Icon(Icons.cloud, size: 100, color: Colors.lightBlueAccent),
+              SizedBox(height: 20),
+              Text(
+                'Bienvenue !',
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
               ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed:() async{
-                String cityName = _cityController.text;
+              SizedBox(height: 10),
+              Text(
+                'Entre le nom d\'une ville pour voir la météo actuelle.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18),
+              ),
+              SizedBox(height: 30),
+              TextField(
+                controller: _cityController,
+                decoration: InputDecoration(
+                  labelText: 'Ex: Montpellier',
+                  prefixIcon: Icon(Icons.location_city),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton.icon(
+                icon: Icon(Icons.search),
+                label: Text('Voir la météo'),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  backgroundColor: Colors.lightBlue,
+                  foregroundColor: Colors.white,
+                  textStyle: TextStyle(fontSize: 18),
+                ),
+                onPressed: () async {
+                  String cityName = _cityController.text.trim();
 
-                WeatherService weatherService = WeatherService();
-                WeatherModel weather = await weatherService.getWeatherByCity(cityName);
+                  if (cityName.isEmpty) return;
 
-                print('Weather in $cityName: ${weather.temperature}°C, '
-                      '${weather.apparentTemperature}°C apparent, '
-                      '${weather.relativeHumidity}% humidity, '
-                      '${weather.windSpeed} m/s wind, '
-                      '${weather.precipitation} mm precipitation, '
-                      '${weather.cloudCover}% cloud cover'
-                      );
-              },
-              child: Text('Get Weather'),
-            )
-          ],
+                  WeatherService weatherService = WeatherService();
+                  WeatherModel weather = await weatherService.getWeatherByCity(cityName);
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WeatherScreen(weather: weather, cityName: cityName),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
-      )
+      ),
     );
   }
 }
-
