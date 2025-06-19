@@ -1,16 +1,49 @@
-# aquatech_meteo
+# 🌦️ Aquatech_meteo
 
-A new Flutter project.
+Aquatech Meteoo is a modern, intuitive mobile application developed with Flutter to display weather data for selected cities.
 
-## Getting Started
+## ✨ Features
 
-This project is a starting point for a Flutter application.
+- 🔍 Weather search by city name
+- 📍 Geolocation via Open-Meteo Geocoding API
+- 📊 Display of current weather data :
+  - Temperature
+  - Feeling temperature
+  - Humidity
+  - Wind
+  - Precipitation
+  - Cloud cover
+- 🎞️ Dynamic weather animations with Lottie (depending on conditions)
+- 🧼 Clear, uncluttered interface
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## 🛠️ Used technologies 
+-Language: Dart
+
+-Framework: Flutter
+
+-Open-Meteo API: https://open-meteo.com/
+
+-Tools: 
+    -Git
+    -Github
+
+-Dependencies: 
+    -HTTP -> enable the application to interact with the API
+    -Lottie -> adds dynamism to the application
+
+
+
+
+
+## ⚙️ Installation using Bash
+
+1. Clone the repository : git clone https://github.com/N4suk4/AquaTech_AppMeteo.git
+
+2. Go to the main file : cd AquaTech_AppMeteo
+
+3. Add Dependencies in the project : flutter pub get
+
+4. Start the application : flutter run
