@@ -30,8 +30,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^1.4.0
-  lottie: ^2.4.0
+  http: ^1.4.0 # HTTP client for making network requests, used for fetching weather data.
+  lottie: ^2.4.0 # Lottie animations for Flutter, used for weather animations.
+  intl: 0.18.1 # Internationalization and localization support, used for formatting dates and numbers.
+  shared_preferences: ^2.2.2 # Plugin for persisting simple data, used for storing user preferences like location.
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

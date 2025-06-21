@@ -2,8 +2,27 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/weather_model.dart';
 
+
 class WeatherService {
-  Future<WeatherModel> getWeatherByCity(String cityName) async {
+  Future<WeatherModel> getWeatherByCity(
+  String cityName, {
+  DateTime? startDate,
+  DateTime? endDate,
+}) async {
+  
+  final DateTime start = startDate ?? DateTime.now();
+  final DateTime end = endDate ?? DateTime.now().add(Duration(days: 1));
+
+    if (cityName.isEmpty) {
+      throw Exception("Le nom de la ville ne peut pas être vide");
+    }
+
+    if (start.isAfter(end)) {
+      throw Exception("La date de début ne peut pas être après la date de fin");
+    }
+
+    
+
     // Étape 1 : Géocodage
     String geoUrl = 'https://geocoding-api.open-meteo.com/v1/search?name=$cityName';
     http.Response geoResponse = await http.get(Uri.parse(geoUrl));
