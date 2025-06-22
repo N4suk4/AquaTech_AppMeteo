@@ -9,13 +9,13 @@ import '../services/favorite_service.dart';
 class WeatherScreen extends StatefulWidget {
   final WeatherModel weather;
   final String cityName;
-  final VoidCallback? onFavoritesChanged; // ✅ Ici on ajoute la fonction optionnelle
+  final VoidCallback? onFavoritesChanged;
 
   const WeatherScreen({
     super.key,
     required this.weather,
     required this.cityName,
-    this.onFavoritesChanged, // ✅ Et on la prend en paramètre
+    this.onFavoritesChanged,
   });
 
   @override
@@ -52,15 +52,18 @@ class _WeatherScreenState extends State<WeatherScreen> {
       _isFavorite = !_isFavorite;
     });
 
-    // ✅ Appelle la fonction passée depuis TestScreen s'il y en a une
     widget.onFavoritesChanged?.call();
   }
 
   @override
   Widget build(BuildContext context) {
+    final utcNow = DateTime.now().toUtc();
+    final localDateTime = utcNow.add(Duration(seconds: widget.weather.utcOffsetSeconds));
+    
     final String animationPath = _chooseMeteoIcon(
       cloudCover: widget.weather.cloudCover,
       precipitation: widget.weather.precipitation,
+      utcOffsetSeconds: widget.weather.utcOffsetSeconds,
     );
 
     return Scaffold(
@@ -93,11 +96,11 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      DateFormat('EEEE d MMMM', 'fr_FR').format(DateTime.now()),
+                      DateFormat('EEEE d MMMM', 'fr_FR').format(localDateTime),
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      DateFormat('HH:mm').format(DateTime.now()),
+                      DateFormat('HH:mm').format(localDateTime),
                       style: TextStyle(fontSize: 14),
                     ),
                     Lottie.asset(animationPath, width: 120, height: 120),
@@ -151,6 +154,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       final iconPath = _chooseMeteoIcon(
                         cloudCover: forecast.cloudCover[index],
                         precipitation: forecast.precipitation[index],
+                        utcOffsetSeconds: widget.weather.utcOffsetSeconds,
                       );
 
                       return Container(
@@ -201,19 +205,42 @@ class _WeatherScreenState extends State<WeatherScreen> {
   String _chooseMeteoIcon({
     required double cloudCover,
     required double precipitation,
+    required int utcOffsetSeconds,
   }) {
-    if (cloudCover < 20.0 && precipitation < 1.0) {
-      return 'assets/animations/sunny.json';
-    } else if (cloudCover < 70.0 && precipitation < 3.0) {
-      return 'assets/animations/partly_cloudy.json';
-    } else if (cloudCover < 70.0 && precipitation > 3.0) {
-      return 'assets/animations/sunny_rainy.json';
-    } else if (cloudCover >= 70.0 && precipitation < 3.0) {
-      return 'assets/animations/cloudy.json';
-    } else if (cloudCover >= 70.0 && precipitation > 3.0) {
-      return 'assets/animations/rainy.json';
+
+    final utcNow = DateTime.now().toUtc();
+    final localNow = utcNow.add(Duration(seconds: utcOffsetSeconds));
+    final hour = localNow.hour;
+
+
+    final isNight = hour < 6 || hour >= 20;
+
+    if (isNight) {
+      // Animations de nuit
+      if (cloudCover < 20.0 && precipitation < 1.0) {
+        return 'assets/animations/moon.json';
+      } else if (cloudCover < 70.0 && precipitation < 3.0) {
+        return 'assets/animations/moon_partly_cloudy.json';
+      } else if (cloudCover >= 70.0 && precipitation > 3.0) {
+        return 'assets/animations/night_rainy.json';
+      } else {
+        return 'assets/animations/cloudy_night.json';
+      }
     } else {
-      return 'assets/animations/partly_cloudy.json';
+      // Animations de jour
+      if (cloudCover < 20.0 && precipitation < 1.0) {
+        return 'assets/animations/sunny.json';
+      } else if (cloudCover < 70.0 && precipitation < 3.0) {
+        return 'assets/animations/partly_cloudy.json';
+      } else if (cloudCover < 70.0 && precipitation > 3.0) {
+        return 'assets/animations/sunny_rainy.json';
+      } else if (cloudCover >= 70.0 && precipitation < 3.0) {
+        return 'assets/animations/cloudy.json';
+      } else if (cloudCover >= 70.0 && precipitation > 3.0) {
+        return 'assets/animations/rainy.json';
+      } else {
+        return 'assets/animations/partly_cloudy.json';
+      }
     }
   }
 }

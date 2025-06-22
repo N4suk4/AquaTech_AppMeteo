@@ -5,6 +5,7 @@ class WeatherModel {
   final double windSpeed;
   final double precipitation;
   final double cloudCover;
+  final int utcOffsetSeconds; 
 
   WeatherModel({
     required this.temperature,
@@ -12,6 +13,7 @@ class WeatherModel {
     required this.relativeHumidity,
     required this.windSpeed,
     required this.precipitation,
-    required this.cloudCover,
+    required this.cloudCover,     
+    required this.utcOffsetSeconds, 
   });
 }
