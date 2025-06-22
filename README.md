@@ -35,11 +35,11 @@ Aquatech Meteo is a modern, intuitive mobile application developed with Flutter 
 
 -Dependencies: 
 
-  -HTTP -> enable the application to interact with the API
-  -Lottie -> adds dynamism to the application
-  -INTL -> package used to formats dates and times in a legible, localized way.
-  -Shared_preferences -> saves user data (like favorite cities) in the devices local storage 
-  -Fl_chart -> is a highly customizable Flutter chart library
+  - HTTP -> enable the application to interact with the API
+  - Lottie -> adds dynamism to the application
+  - INTL -> package used to formats dates and times in a legible, localized way.
+  - Shared_preferences -> saves user data (like favorite cities) in the devices local storage 
+  - Fl_chart -> is a highly customizable Flutter chart library
 
 
 
