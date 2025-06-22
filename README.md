@@ -26,7 +26,7 @@ Aquatech Meteo is a modern, intuitive mobile application developed with Flutter 
 
 -Open-Meteo API: https://open-meteo.com/
 
-- Tools :
+-Tools :
 
   - VScode
   - Git
