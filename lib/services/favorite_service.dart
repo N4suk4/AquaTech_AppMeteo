@@ -1,5 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+
+/// Service pour gérer les villes favorites
+
 class FavoriteService {
   static const String _key = 'favorite_cities';
 

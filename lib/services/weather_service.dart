@@ -42,7 +42,8 @@ class WeatherService {
     String weatherUrl =
         'https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude'
         '&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,precipitation,cloud_cover'
-        '&timezone=auto';
+        '&timezone=auto'
+        ;
 
     http.Response weatherResponse = await http.get(Uri.parse(weatherUrl));
 
@@ -62,6 +63,8 @@ class WeatherService {
       precipitation: current['precipitation']?.toDouble() ?? 0.0,
       cloudCover: current['cloud_cover']?.toDouble() ?? 0.0,
       utcOffsetSeconds: weatherData['utc_offset_seconds'] ?? 0, 
+      latitude: latitude,
+      longitude: longitude,
     );
   }
 }

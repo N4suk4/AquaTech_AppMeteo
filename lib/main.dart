@@ -62,7 +62,7 @@ class _TestScreenState extends State<TestScreen> {
     return Scaffold(
       backgroundColor: Colors.lightBlue[50],
       appBar: AppBar(
-        title: Text('🌤️ AquaTech Météo'),
+        title: Text('AquaTech Météo'),
         centerTitle: true,
         backgroundColor: Colors.lightBlue,
       ),

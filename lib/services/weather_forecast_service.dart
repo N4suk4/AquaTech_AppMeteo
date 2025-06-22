@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/weather_forecast_model.dart';
 
+
+/// Service pour récupérer les prévisions météo quotidiennes à partir de l'API Open-Meteo
+
 class WeatherForecastService {
   Future<WeatherForecastModel> getForecastByCity(String cityName) async {
     // Étape 1 : Géocodage pour obtenir les coordonnées
